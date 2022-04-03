@@ -6,9 +6,29 @@ from decimal import *
 import pickle
 import requests
 
+##################
+### 
+### A script that calculates an approximation of pi using the following identity: 
+### 	4pi = 4*atan(1/5) - atan(1/239)
+### 
+### We can also use the following identity (An infinite sum)
+### 	atan(1/x) = sum(i=0->inf, -1^(2i+1)/(2i+1)*(x^(2i+1)))
+### 
+### Using these two components, we can approximate pi using only addition, subtraction, multiplication, division, and exponents
+### This means it's feasible for this approximation to be done 'by hand' without a calculator
+### Obviously this is a python script, so it isn't done by hand, but this script does demonstrate that it can be done using elementary operations
+### 
+### This script also has multiple sources to compare your pi (And atan) results against
+###    -> Wolfram Alpha, Python Math Library, Pi API, and 
+### 
+### Todo:
+###  - The terms in the infinite sum converge at a consistent rate, that means it should be easily possible to determine the rate at which the sum acurately aproximates digits
+###  - Figure out the rate ^, take log base 10 of rate, test estimation
+### 
+
 maxLen = 5000
 maxDisplay = 100
-maxTerms = 20
+maxTerms = 100
 
 getcontext().prec = maxLen
 
@@ -207,20 +227,8 @@ try:
 except:
 	piApi = piApiInteractor('https://api.pi.delivery/v1/pi', maxReq=mr, pickleFileName=pickleFileName)
 
-# piApi._reqDigits(4320)
-# piApi._reqDigits(4420)
-# piApi._reqDigits(5520)
-# for id, response in piApi.responses.items():
-# 	print(id, response, response.json()['content'])
-# print(piApi.digitsRange(2351, 7628))
-# print(piApi.digits[:maxLen])
-
-# request = requests.get(f'https://api.pi.delivery/v1/pi?start={0}&numberOfDigits={maxLen}')
-# piApi = addDot(request.json()['content'])
-
 atanooxf = arctanOneOnX(Decimal(5), maxTerms=maxTerms)
 atanooxt = arctanOneOnX(Decimal(239), maxTerms=maxTerms)
-
 
 dumpResults(wramAtanOneFive, atanooxf, math.atan(1/5))
 dumpResults(wramAtanOneTTN, 16*atanooxf, 16*math.atan(1/5))
@@ -240,23 +248,3 @@ piDumper(
 	test4 = piApi.digitsRange(13001, 13002),
 	test5 = piApi.digitsRange(14001, 14002),
 )
-
-# t = requests.get(f'{domain}{relative}{product}')
-# t.connection.close()
-# f = open('t.pkl', 'wb')
-# pickle.dump(t, f)
-
-# f = open('t.pkl', 'rb')
-# t = pickle.load(f)
-
-# class exiter():
-# 	def __init__(self) -> None:
-# 		print('__init__')
-
-	
-# 	def __del__(self):
-# 		print('__del__')
-
-
-# t = exiter()
-# print('About to quit')
