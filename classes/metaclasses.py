@@ -1,3 +1,14 @@
+### TODO: Multiple inheritance metaclass conflict
+# https://stackoverflow.com/questions/28720217/multiple-inheritance-metaclass-conflict
+#
+# class A(B, C):
+# 	pass
+#
+# -> If B and C both have metaclasses, Python cannot determine which metaclass A should use
+#
+#
+
+
 
 # Imagine you're writing a library part of it relies on the users to define a method on a derived class:
 
